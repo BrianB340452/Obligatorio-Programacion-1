@@ -18,6 +18,8 @@ namespace Dominio
             _precio = precio;
         }
 
+        public string Categoria {  get { return _categoria; } }
+
         public void Validar()
         {
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacío.");
