@@ -8,5 +8,16 @@
         {
             _saldo = saldo;
         }
+
+        private void ValidarSaldo()
+        {
+            if (_saldo < 0) throw new Exception("Debe tener un saldo positivo");
+        }
+
+        public override void Validar()
+        { 
+           base.Validar();
+           ValidarSaldo();
+        }
     }
 }

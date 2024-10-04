@@ -20,7 +20,7 @@ namespace Dominio
             _clave = clave;
         }
 
-        public void Validar()
+        public virtual void Validar()
         {
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacío.");
             if (string.IsNullOrEmpty(_apellido)) throw new Exception("El apellido no puede estar vacío.");
@@ -37,6 +37,11 @@ namespace Dominio
             if (email.EndsWith("@")) return false;
 
             return true;
+        }
+
+        public override string ToString()
+        {
+            return $"Nombre - {_nombre} - Apellido: {_apellido}";
         }
     }
 }

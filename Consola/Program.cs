@@ -22,6 +22,9 @@ namespace Consola
                     case "1":
                         AltaArticulo();
                         break;
+                    case "2":
+                        listaClientes();
+                        break;
                     case "0":
                         Console.WriteLine("Saliendo...");
                         break;
@@ -175,6 +178,28 @@ namespace Consola
 
                 sistema.AltaArticulo(articulo);
                 MostrarExito("Artículo insertado satisfactoriamente.");
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+
+            PressToContinue();
+        }
+
+        private static void listaClientes()
+        {
+            Console.Clear();
+            MostrarMensajeColor(ConsoleColor.Yellow, "ALTA DE ARTÍCULO");
+            Console.WriteLine();
+
+            try
+            {
+                List<Cliente> buscados = sistema.ListarClientes();
+                foreach (Cliente c in buscados)
+                { 
+                Console.WriteLine(c);
+                }
             }
             catch (Exception ex)
             {
