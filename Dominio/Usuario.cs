@@ -38,10 +38,5 @@ namespace Dominio
 
             return true;
         }
-
-        public override string ToString()
-        {
-            return $"Nombre - {_nombre} - Apellido: {_apellido}";
-        }
     }
 }

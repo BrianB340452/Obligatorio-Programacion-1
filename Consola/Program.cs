@@ -25,6 +25,9 @@ namespace Consola
                     case "2":
                         ListarClientes();
                         break;
+                    case "3":
+                        ListarArticulosPorCategoria();
+                        break;
                     case "0":
                         Console.WriteLine("Saliendo...");
                         break;
@@ -158,6 +161,7 @@ namespace Consola
             Console.WriteLine(mensaje);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+
         static void PressToContinue()
         {
             Console.WriteLine("Presione cualquier tecla para volver al menú...");
@@ -209,6 +213,52 @@ namespace Consola
                 }
 
                 Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+
+            PressToContinue();
+        }
+
+        private static void ListarArticulosPorCategoria()
+        {
+            Console.Clear();
+            MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE ARTÍCULOS POR CATEGORÍA");
+            Console.WriteLine();
+            MostrarMensaje("Categorías disponibles:");
+            int contador = 1;
+
+            List<string> categorias = sistema.ListarCategorias();
+
+            
+            foreach (string c in categorias)
+            {
+                MostrarMensaje($"{contador}- {c}");
+                contador++;
+            }
+
+            int categoriaSeleccionada = PedirInt("\nIngrese el número de categoría a listar: ");
+
+            List<Articulo> articulos = new List<Articulo>();
+            articulos = sistema.ListarArticulosPorCategoria(categorias[categoriaSeleccionada-1]);
+
+            try
+            {
+                foreach (Articulo a in articulos)
+                {
+                    MostrarMensaje(a.ToString());
+                }
+
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+
+            PressToContinue();
         }
     }
 }
