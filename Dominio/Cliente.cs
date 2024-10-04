@@ -6,12 +6,18 @@
 
         public Cliente(string nombre, string apellido, string email, string clave, double saldo) : base(nombre, apellido, email, clave)
         {
+
             _saldo = saldo;
         }
 
+        public override string ToString()
+        {
+            return $"{_id}: {_nombre} {_apellido} | {_email} | ${_saldo}";
+        }
+        
         private void ValidarSaldo()
         {
-            if (_saldo < 0) throw new Exception("Debe tener un saldo positivo");
+            if (_saldo < 0) throw new Exception("El saldo debe ser un monto positivo.");
         }
 
         public override void Validar()

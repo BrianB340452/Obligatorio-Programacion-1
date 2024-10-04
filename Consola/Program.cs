@@ -23,7 +23,7 @@ namespace Consola
                         AltaArticulo();
                         break;
                     case "2":
-                        listaClientes();
+                        ListarClientes();
                         break;
                     case "0":
                         Console.WriteLine("Saliendo...");
@@ -140,6 +140,11 @@ namespace Consola
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
+        static void MostrarMensaje(string mensaje)
+        {
+            Console.WriteLine(mensaje);
+        }
+
         static void MostrarError(string mensaje)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -187,26 +192,23 @@ namespace Consola
             PressToContinue();
         }
 
-        private static void listaClientes()
+        private static void ListarClientes()
         {
             Console.Clear();
-            MostrarMensajeColor(ConsoleColor.Yellow, "ALTA DE ARTÍCULO");
+            MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE CLIENTES");
             Console.WriteLine();
+
+            List<Cliente> clientes = new List<Cliente>();
+            clientes = sistema.ListarClientes();
 
             try
             {
-                List<Cliente> buscados = sistema.ListarClientes();
-                foreach (Cliente c in buscados)
-                { 
-                Console.WriteLine(c);
+                foreach (Cliente c in clientes)
+                {
+                    MostrarMensaje(c.ToString());
                 }
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex.Message);
-            }
 
-            PressToContinue();
+                Console.WriteLine();
         }
     }
 }
