@@ -209,13 +209,6 @@ namespace Consola
                 }
 
                 Console.WriteLine();
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex.Message);
-            }
-
-            PressToContinue();
         }
     }
 }

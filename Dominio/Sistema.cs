@@ -2,8 +2,8 @@
 {
     public class Sistema
     {
-        private List<Usuario> _listaUsuarios = new List<Usuario>();
         private List<Articulo> _listaArticulos = new List<Articulo>();
+        private List<Usuario> _listaUsuarios = new List<Usuario>();
 
         public Sistema()
         {
@@ -19,7 +19,8 @@
         {
             List<Articulo> articulos = new List<Articulo>();
 
-            foreach (Articulo a in _listaArticulos) {
+            foreach (Articulo a in _listaArticulos)
+            {
                 if (a.Categoria == categoria) articulos.Add(a);
             }
 
@@ -32,7 +33,7 @@
             articulo.Validar();
             _listaArticulos.Add(articulo);
         }
-
+      
         public void AltaCliente(Cliente cliente)
         {
             if (cliente == null) throw new Exception("El cliente no puede ser nulo.");
@@ -43,7 +44,9 @@
         #region PRECARGAS
         private void PrecargarClientes()
         {
-            AltaCliente(new Cliente("Nombre", "Apellido", "Email@em", "Clave", /*SALDO*/2000));
+            AltaCliente(new Cliente("Pedro","Perez","PedroPe@46","pedropedrope", 1200));
+            AltaCliente(new Cliente("Carmen","Cianni","PedroPe@12","pedropedrope", 1800));
+            AltaCliente(new Cliente("Cristian","Castro","PedroPe@12","pedropedrope", 1800));
         }
         #endregion
     }
