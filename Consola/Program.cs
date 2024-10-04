@@ -22,6 +22,9 @@ namespace Consola
                     case "1":
                         AltaArticulo();
                         break;
+                    case "2":
+                        ListarClientes();
+                        break;
                     case "0":
                         Console.WriteLine("Saliendo...");
                         break;
@@ -137,6 +140,11 @@ namespace Consola
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
+        static void MostrarMensaje(string mensaje)
+        {
+            Console.WriteLine(mensaje);
+        }
+
         static void MostrarError(string mensaje)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -175,6 +183,32 @@ namespace Consola
 
                 sistema.AltaArticulo(articulo);
                 MostrarExito("Artículo insertado satisfactoriamente.");
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+
+            PressToContinue();
+        }
+
+        private static void ListarClientes()
+        {
+            Console.Clear();
+            MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE CLIENTES");
+            Console.WriteLine();
+
+            List<Cliente> clientes = new List<Cliente>();
+            clientes = sistema.ListarClientes();
+
+            try
+            {
+                foreach (Cliente c in clientes)
+                {
+                    MostrarMensaje(c.ToString());
+                }
+
+                Console.WriteLine();
             }
             catch (Exception ex)
             {

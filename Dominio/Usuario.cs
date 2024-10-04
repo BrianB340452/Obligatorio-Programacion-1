@@ -4,12 +4,12 @@ namespace Dominio
 {
     public abstract class Usuario : IValidable
     {
-        private int _id;
+        protected int _id;
         private static int s_ultId = 1;
-        private string _nombre;
-        private string _apellido;
-        private string _email;
-        private string _clave;
+        protected string _nombre;
+        protected string _apellido;
+        protected string _email;
+        protected string _clave;
 
         public Usuario(string nombre, string apellido, string email, string clave)
         {
