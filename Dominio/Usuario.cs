@@ -1,4 +1,5 @@
 ﻿using Dominio.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace Dominio
 {
@@ -38,5 +39,12 @@ namespace Dominio
 
             return true;
         }
+
+        public override bool Equals(object? obj)
+        {
+            Usuario u = obj as Usuario;
+            return u != null && this._email == u._email;
+        }
+
     }
 }

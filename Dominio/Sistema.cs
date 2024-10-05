@@ -44,6 +44,9 @@ namespace Dominio
             if (usuario == null) throw new Exception("El usuario no puede ser nulo.");
             usuario.Validar();
             _listaUsuarios.Add(usuario);
+            if (_listaUsuarios.Contains(usuario)) throw new Exception("El auto ya existe");
+            _listaUsuarios.Add(usuario);
+
         }
 
         public void AltaPublicacion(Publicacion publicacion)
