@@ -29,7 +29,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            return $"Artículo Nº{_id}: {_nombre} - {_precio}";
+            return $"Artículo Nº{_id}: {_nombre} - ${_precio}";
         }
     }
 }

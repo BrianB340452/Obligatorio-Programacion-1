@@ -1,14 +1,18 @@
-﻿namespace Dominio
+﻿using Dominio.Enums;
+
+namespace Dominio
 {
     public class Sistema
     {
-        private List<Articulo> _listaArticulos = new List<Articulo>();
         private List<Usuario> _listaUsuarios = new List<Usuario>();
+        private List<Articulo> _listaArticulos = new List<Articulo>();
+        private List<Publicacion> _listaPublicaciones = new List<Publicacion>();
 
         public Sistema()
         {
-            PrecargarUsuario();
+            PrecargarUsuarios();
             PrecargarArticulos();
+            PrecargarPublicaciones();
         }
 
         public List<Cliente> ListarClientes()
@@ -35,18 +39,18 @@
             _listaArticulos.Add(articulo);
         }
       
-        public void AltaCliente(Cliente cliente)
+        public void AltaUsuario(Usuario usuario)
         {
-            if (cliente == null) throw new Exception("El cliente no puede ser nulo.");
-            cliente.Validar();
-            _listaUsuarios.Add(cliente);
+            if (usuario == null) throw new Exception("El usuario no puede ser nulo.");
+            usuario.Validar();
+            _listaUsuarios.Add(usuario);
         }
 
-        public void AltaAdministrador(Administrador administrador)
+        public void AltaPublicacion(Publicacion publicacion)
         {
-            if (administrador == null) throw new Exception("El Administrador no puede ser nulo.");
-            administrador.Validar();
-            _listaUsuarios.Add(administrador);
+            if (publicacion == null) throw new Exception("La publicación no puede ser nula.");
+            publicacion.Validar();
+            _listaPublicaciones.Add(publicacion);
         }
 
         public List<string> ListarCategorias()
@@ -64,25 +68,41 @@
             return categorias;
         }
 
+        public List<Publicacion> ListarListarPublicacionesEntreDosFechas(DateTime fechaInicio, DateTime fechaFin)
+        {
+            if (fechaInicio > fechaFin) throw new Exception("La fecha de inicio no puede ser mayor a la fecha final.");
+
+            List<Publicacion> publicaciones = new List<Publicacion>();
+
+            foreach (Publicacion p in _listaPublicaciones)
+            {
+                if (p.FechaPublicacion.Date >= fechaInicio.Date && p.FechaPublicacion.Date <= fechaFin.Date)
+                {
+                    publicaciones.Add(p);
+                }
+            }
+
+            return publicaciones;
+        }
+
         #region PRECARGAS
-        private void PrecargarUsuario()
+        private void PrecargarUsuarios()
         {
             // Precarga de clientes
-            AltaCliente(new Cliente("Pedro", "Perez", "PedroPerez@gmail.com", "pedroPe123", 1900));
-            AltaCliente(new Cliente("Laura", "Gomez", "LauraGomez@gmail.com", "lauraG456", 2500));
-            AltaCliente(new Cliente("Carlos", "Diaz", "CarlosDiaz@gmail.com", "carlosD789", 3200));
-            AltaCliente(new Cliente("Ana", "Martinez", "AnaMartinez@gmail.com", "anaM101", 1500));
-            AltaCliente(new Cliente("Juan", "Lopez", "JuanLopez@gmail.com", "juanL202", 2800));
-            AltaCliente(new Cliente("Maria", "Hernandez", "MariaHernandez@gmail.com", "mariaH303", 4100));
-            AltaCliente(new Cliente("Luis", "Garcia", "LuisGarcia@gmail.com", "luisG404", 1800));
-            AltaCliente(new Cliente("Sofia", "Rodriguez", "SofiaRodriguez@gmail.com", "sofiaR505", 3300));
-            AltaCliente(new Cliente("Diego", "Sanchez", "DiegoSanchez@gmail.com", "diegoS606", 1200));
-            AltaCliente(new Cliente("Lucia", "Ramirez", "LuciaRamirez@gmail.com", "luciaR707", 2950));
+            AltaUsuario(new Cliente("Pedro", "Perez", "PedroPerez@gmail.com", "pedroPe123", 1900));
+            AltaUsuario(new Cliente("Laura", "Gomez", "LauraGomez@gmail.com", "lauraG456", 2500));
+            AltaUsuario(new Cliente("Carlos", "Diaz", "CarlosDiaz@gmail.com", "carlosD789", 3200));
+            AltaUsuario(new Cliente("Ana", "Martinez", "AnaMartinez@gmail.com", "anaM101", 1500));
+            AltaUsuario(new Cliente("Juan", "Lopez", "JuanLopez@gmail.com", "juanL202", 2800));
+            AltaUsuario(new Cliente("Maria", "Hernandez", "MariaHernandez@gmail.com", "mariaH303", 4100));
+            AltaUsuario(new Cliente("Luis", "Garcia", "LuisGarcia@gmail.com", "luisG404", 1800));
+            AltaUsuario(new Cliente("Sofia", "Rodriguez", "SofiaRodriguez@gmail.com", "sofiaR505", 3300));
+            AltaUsuario(new Cliente("Diego", "Sanchez", "DiegoSanchez@gmail.com", "diegoS606", 1200));
+            AltaUsuario(new Cliente("Lucia", "Ramirez", "LuciaRamirez@gmail.com", "luciaR707", 2950));
 
             // Precarga de administradores
-            AltaAdministrador(new Administrador("Santiago", "Fernandez", "SantiMas@gmail.com", "Firulais33"));
-            AltaAdministrador(new Administrador("Valeria", "Torres", "ValeriaTorres@gmail.com", "valTorres44"));
-
+            AltaUsuario(new Administrador("Santiago", "Fernandez", "SantiMas@gmail.com", "Firulais33"));
+            AltaUsuario(new Administrador("Valeria", "Torres", "ValeriaTorres@gmail.com", "valTorres44"));
         }
 
         private void PrecargarArticulos()
@@ -137,6 +157,51 @@
             AltaArticulo(new Articulo("Mesa de comedor", "Muebles", 1000));
             AltaArticulo(new Articulo("Set de cucharas", "Cocina", 100));
         }
+
+        private void PrecargarPublicaciones()
+        {
+            AltaPublicacion(new Subasta("Subasta 1", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 15), SeleccionarArticulosAleatorios(2), null));
+            AltaPublicacion(new Subasta("Subasta 2", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 18), SeleccionarArticulosAleatorios(6), null));
+            AltaPublicacion(new Subasta("Subasta 3", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 20), SeleccionarArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 4", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 22), SeleccionarArticulosAleatorios(3), null));
+            AltaPublicacion(new Subasta("Subasta 5", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 25), SeleccionarArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 6", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 27), SeleccionarArticulosAleatorios(2), null));
+            AltaPublicacion(new Subasta("Subasta 7", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 01), SeleccionarArticulosAleatorios(1), null));
+            AltaPublicacion(new Subasta("Subasta 8", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 03), SeleccionarArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 9", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 05), SeleccionarArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 10", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 10), SeleccionarArticulosAleatorios(6), null));
+
+            AltaPublicacion(new Venta("Venta 1", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 01), SeleccionarArticulosAleatorios(3), true));
+            AltaPublicacion(new Venta("Venta 2", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 05), SeleccionarArticulosAleatorios(4), false));
+            AltaPublicacion(new Venta("Venta 3", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 08), SeleccionarArticulosAleatorios(1), false));
+            AltaPublicacion(new Venta("Venta 4", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 12), SeleccionarArticulosAleatorios(5), false));
+            AltaPublicacion(new Venta("Venta 5", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 15), SeleccionarArticulosAleatorios(7), true));
+            AltaPublicacion(new Venta("Venta 6", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 20), SeleccionarArticulosAleatorios(2), false));
+            AltaPublicacion(new Venta("Venta 7", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 25), SeleccionarArticulosAleatorios(7), true));
+            AltaPublicacion(new Venta("Venta 8", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 30), SeleccionarArticulosAleatorios(3), false));
+            AltaPublicacion(new Venta("Venta 9", EstadoPublicacion.ABIERTA, new DateTime(2024, 11, 02), SeleccionarArticulosAleatorios(7), false));
+            AltaPublicacion(new Venta("Venta 10", EstadoPublicacion.ABIERTA, new DateTime(2024, 11, 05), SeleccionarArticulosAleatorios(1), true));
+        }
+
+        private List<Articulo> SeleccionarArticulosAleatorios(int cantidad)
+        {
+            Random random = new Random();
+            List<Articulo> articulosSeleccionados = new List<Articulo>();
+
+            while (articulosSeleccionados.Count < cantidad && articulosSeleccionados.Count < _listaArticulos.Count)
+            {
+                int indiceAleatorio = random.Next(_listaArticulos.Count);
+
+                // Asegurarse de que no se selecciona el mismo artículo dos veces
+                if (!articulosSeleccionados.Contains(_listaArticulos[indiceAleatorio]))
+                {
+                    articulosSeleccionados.Add(_listaArticulos[indiceAleatorio]);
+                }
+            }
+
+            return articulosSeleccionados;
+        }
+
         #endregion
     }
 }

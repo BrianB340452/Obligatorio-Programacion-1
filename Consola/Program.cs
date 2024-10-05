@@ -28,6 +28,9 @@ namespace Consola
                     case "3":
                         ListarArticulosPorCategoria();
                         break;
+                    case "4":
+                        ListarPublicacionesEntreDosFechas();
+                        break;
                     case "0":
                         Console.WriteLine("Saliendo...");
                         break;
@@ -124,7 +127,7 @@ namespace Consola
         {
             while (true)
             {
-                Console.Write($"{mensaje} [dd/MM/yyyy]:");
+                Console.Write($"{mensaje} [dd/MM/yyyy]:\n");
 
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime fecha))
                 {
@@ -132,7 +135,7 @@ namespace Consola
                     return fecha;
                 }
 
-                MostrarError("ERROR: La fecha no respeta el formato dd/MM/yyyy");
+                MostrarError("ERROR: La fecha no respeta el formato dd/MM/yyyy.");
             }
         }
 
@@ -190,10 +193,13 @@ namespace Consola
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 MostrarError(ex.Message);
             }
-
-            PressToContinue();
+            finally
+            {
+                PressToContinue();
+            }
         }
 
         private static void ListarClientes()
@@ -216,10 +222,13 @@ namespace Consola
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 MostrarError(ex.Message);
             }
-
-            PressToContinue();
+            finally
+            {
+                PressToContinue();
+            }
         }
 
         private static void ListarArticulosPorCategoria()
@@ -255,10 +264,49 @@ namespace Consola
             }
             catch (Exception ex)
             {
+                Console.Clear();
                 MostrarError(ex.Message);
             }
+            finally
+            {
+                PressToContinue();
+            }
+        }
 
-            PressToContinue();
+        private static void ListarPublicacionesEntreDosFechas()
+        {
+            Console.Clear();
+            MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE PUBLICACIONES POR FECHA\n");
+
+            try
+            {
+                DateTime fechaInicio = PedirFecha("Ingrese la fecha de inicio");
+                DateTime fechaFinal = PedirFecha("Ingrese la fecha de fin");
+
+                Console.Clear();
+                MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE PUBLICACIONES POR FECHA\n");
+
+                List<Publicacion> publicaciones = new List<Publicacion>();
+                publicaciones = sistema.ListarListarPublicacionesEntreDosFechas(fechaInicio, fechaFinal);
+
+                if (publicaciones.Count == 0) throw new Exception("No se han encontrado publicaciones entre esas fechas.");
+
+                foreach (Publicacion p in publicaciones)
+                {
+                    MostrarMensaje(p.ToString());
+                }
+
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                MostrarError(ex.Message);
+            }
+            finally
+            {
+                PressToContinue();
+            }
         }
     }
 }
