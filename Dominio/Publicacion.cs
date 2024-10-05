@@ -28,6 +28,12 @@ namespace Dominio
         {
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacío.");
             if (_articulos == null) throw new Exception("Los artículos no pueden ser nulos.");
+            if (_fechaPublicacion < new DateTime(1950, 1, 1) || _fechaPublicacion > DateTime.Today) throw new Exception("La fecha de publicación es invalida.");
+        }
+
+        public override string ToString()
+        {
+            return $"{_id}: {_nombre} | Estado - {_estado} | Fecha publicada - {_fechaPublicacion}";
         }
     }
 }

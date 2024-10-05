@@ -22,6 +22,7 @@ namespace Dominio
         {
             _cliente.Validar();
             if (_monto <= 0) throw new Exception("El monto debe ser mayor a $0");
+            if (_fechaRealizada < new DateTime(1950, 1, 1) || _fechaRealizada > DateTime.Today) throw new Exception("La fecha realizada es invalida.");
         }
     }
 }
