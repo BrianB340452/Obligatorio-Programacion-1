@@ -31,5 +31,11 @@ namespace Dominio
         {
             return $"Artículo Nº{_id}: {_nombre} - ${_precio}";
         }
+
+        public override bool Equals(object? obj)
+        {
+            Articulo a = obj as Articulo;
+            return a != null && this._nombre == a._nombre;
+        }
     }
 }
