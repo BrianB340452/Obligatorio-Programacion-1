@@ -7,7 +7,7 @@
 
         public Sistema()
         {
-            PrecargarClientes();
+            PrecargarUsuario();
             PrecargarArticulos();
         }
 
@@ -42,6 +42,13 @@
             _listaUsuarios.Add(cliente);
         }
 
+        public void AltaAdministrador(Administrador administrador)
+        {
+            if (administrador == null) throw new Exception("El Administrador no puede ser nulo.");
+            administrador.Validar();
+            _listaUsuarios.Add(administrador);
+        }
+
         public List<string> ListarCategorias()
         {
             List<string> categorias = new List<string>();
@@ -58,11 +65,24 @@
         }
 
         #region PRECARGAS
-        private void PrecargarClientes()
+        private void PrecargarUsuario()
         {
-            AltaCliente(new Cliente("Pedro","Perez","PedroPe@46","pedropedrope", 1200));
-            AltaCliente(new Cliente("Carmen","Cianni","PedroPe@12","pedropedrope", 1800));
-            AltaCliente(new Cliente("Cristian","Castro","PedroPe@12","pedropedrope", 1800));
+            // Precarga de clientes
+            AltaCliente(new Cliente("Pedro", "Perez", "PedroPerez@gmail.com", "pedroPe123", 1900));
+            AltaCliente(new Cliente("Laura", "Gomez", "LauraGomez@gmail.com", "lauraG456", 2500));
+            AltaCliente(new Cliente("Carlos", "Diaz", "CarlosDiaz@gmail.com", "carlosD789", 3200));
+            AltaCliente(new Cliente("Ana", "Martinez", "AnaMartinez@gmail.com", "anaM101", 1500));
+            AltaCliente(new Cliente("Juan", "Lopez", "JuanLopez@gmail.com", "juanL202", 2800));
+            AltaCliente(new Cliente("Maria", "Hernandez", "MariaHernandez@gmail.com", "mariaH303", 4100));
+            AltaCliente(new Cliente("Luis", "Garcia", "LuisGarcia@gmail.com", "luisG404", 1800));
+            AltaCliente(new Cliente("Sofia", "Rodriguez", "SofiaRodriguez@gmail.com", "sofiaR505", 3300));
+            AltaCliente(new Cliente("Diego", "Sanchez", "DiegoSanchez@gmail.com", "diegoS606", 1200));
+            AltaCliente(new Cliente("Lucia", "Ramirez", "LuciaRamirez@gmail.com", "luciaR707", 2950));
+
+            // Precarga de administradores
+            AltaAdministrador(new Administrador("Santiago", "Fernandez", "SantiMas@gmail.com", "Firulais33"));
+            AltaAdministrador(new Administrador("Valeria", "Torres", "ValeriaTorres@gmail.com", "valTorres44"));
+
         }
 
         private void PrecargarArticulos()
