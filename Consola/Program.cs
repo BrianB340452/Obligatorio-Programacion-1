@@ -287,7 +287,7 @@ namespace Consola
                 MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE PUBLICACIONES POR FECHA\n");
 
                 List<Publicacion> publicaciones = new List<Publicacion>();
-                publicaciones = sistema.ListarListarPublicacionesEntreDosFechas(fechaInicio, fechaFinal);
+                publicaciones = sistema.ListarPublicacionesEntreDosFechas(fechaInicio, fechaFinal);
 
                 if (publicaciones.Count == 0) throw new Exception("No se han encontrado publicaciones entre esas fechas.");
 

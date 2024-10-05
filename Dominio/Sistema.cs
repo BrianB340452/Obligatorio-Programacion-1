@@ -43,8 +43,8 @@ namespace Dominio
         {
             if (usuario == null) throw new Exception("El usuario no puede ser nulo.");
             usuario.Validar();
-            _listaUsuarios.Add(usuario);
-            if (_listaUsuarios.Contains(usuario)) throw new Exception("El auto ya existe");
+            
+            if (_listaUsuarios.Contains(usuario)) throw new Exception("El Usuario ya existe");
             _listaUsuarios.Add(usuario);
 
         }
@@ -71,7 +71,7 @@ namespace Dominio
             return categorias;
         }
 
-        public List<Publicacion> ListarListarPublicacionesEntreDosFechas(DateTime fechaInicio, DateTime fechaFin)
+        public List<Publicacion> ListarPublicacionesEntreDosFechas(DateTime fechaInicio, DateTime fechaFin)
         {
             if (fechaInicio > fechaFin) throw new Exception("La fecha de inicio no puede ser mayor a la fecha final.");
 
