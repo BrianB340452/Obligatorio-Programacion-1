@@ -1,5 +1,4 @@
 ﻿using Dominio.Interfaces;
-using System.Text.RegularExpressions;
 
 namespace Dominio
 {
@@ -45,6 +44,5 @@ namespace Dominio
             Usuario u = obj as Usuario;
             return u != null && this._email == u._email;
         }
-
     }
 }

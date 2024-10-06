@@ -18,7 +18,7 @@ namespace Dominio
             _precio = precio;
         }
 
-        public string Categoria {  get { return _categoria; } }
+        public string Categoria { get { return _categoria; } }
 
         public void Validar()
         {
@@ -35,7 +35,7 @@ namespace Dominio
         public override bool Equals(object? obj)
         {
             Articulo a = obj as Articulo;
-            return a != null && this._nombre == a._nombre;
+            return a != null && this._nombre == a._nombre && this._categoria == a._categoria && this._precio == a._precio;
         }
     }
 }

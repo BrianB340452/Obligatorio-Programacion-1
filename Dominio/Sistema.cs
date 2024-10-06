@@ -15,31 +15,12 @@ namespace Dominio
             PrecargarPublicaciones();
         }
 
-        public List<Cliente> ListarClientes()
-        {
-            List<Cliente> clientes = new List<Cliente>();
-            clientes = _listaUsuarios.OfType<Cliente>().ToList();
-
-            if (clientes.Count == 0) throw new Exception("No se han encontrado clientes");
-            return clientes;
-        }
-
-        public List<Articulo> ListarArticulosPorCategoria(string categoria)
-        {
-            List<Articulo> articulos = new List<Articulo>();
-
-            foreach (Articulo a in _listaArticulos)
-            {
-                if (a.Categoria == categoria) articulos.Add(a);
-            }
-
-            return articulos;
-        }
-
+        #region ALTAS
         public void AltaArticulo(Articulo articulo)
         {
             if (articulo == null) throw new Exception("El artículo no puede ser nulo.");
             articulo.Validar();
+            if (_listaArticulos.Contains(articulo)) throw new Exception("El artículo ingresado ya existe.");
             _listaArticulos.Add(articulo);
         }
       
@@ -47,10 +28,8 @@ namespace Dominio
         {
             if (usuario == null) throw new Exception("El usuario no puede ser nulo.");
             usuario.Validar();
-            
-            if (_listaUsuarios.Contains(usuario)) throw new Exception("El Usuario ya existe");
+            if (_listaUsuarios.Contains(usuario)) throw new Exception("El usuario ingresado ya existe.");
             _listaUsuarios.Add(usuario);
-
         }
 
         public void AltaPublicacion(Publicacion publicacion)
@@ -58,6 +37,16 @@ namespace Dominio
             if (publicacion == null) throw new Exception("La publicación no puede ser nula.");
             publicacion.Validar();
             _listaPublicaciones.Add(publicacion);
+        }
+        #endregion
+
+        #region LISTADOS
+        public List<Cliente> ListarClientes()
+        {
+            List<Cliente> clientes = new List<Cliente>();
+            clientes = _listaUsuarios.OfType<Cliente>().ToList();
+            if (clientes.Count == 0) throw new Exception("No se ha encontrado ningún cliente.");
+            return clientes;
         }
 
         public List<string> ListarCategorias()
@@ -72,7 +61,23 @@ namespace Dominio
                 }
             }
 
+            if (categorias.Count == 0) throw new Exception("No se ha encontrado ningúna categoría.");
+
             return categorias;
+        }
+
+        public List<Articulo> ListarArticulosPorCategoria(string categoria)
+        {
+            List<Articulo> articulos = new List<Articulo>();
+
+            foreach (Articulo a in _listaArticulos)
+            {
+                if (a.Categoria == categoria) articulos.Add(a);
+            }
+
+            if (articulos.Count == 0) throw new Exception("No se ha encontrado ningún artículo");
+
+            return articulos;
         }
 
         public List<Publicacion> ListarPublicacionesEntreDosFechas(DateTime fechaInicio, DateTime fechaFin)
@@ -87,10 +92,76 @@ namespace Dominio
                     publicaciones.Add(p);
                 }
             }
-            if (publicaciones.Count == 0) throw new Exception("No se han encontrado publicaciones entre esas fechas.");
+            if (publicaciones.Count == 0) throw new Exception("No se han encontrado publicaciones entre las fechas seleccionadas.");
 
             return publicaciones;
         }
+        #endregion
+
+        #region MÉTODOS AUXILIARES
+        public string NormalizarString(string str)
+        {
+            // Pasa el string a mayúsculas y quita todos los tildes
+            str = str.ToUpper();
+
+            str = str.Replace('Á', 'A');
+            str = str.Replace('É', 'E');
+            str = str.Replace('Í', 'I');
+            str = str.Replace('Ó', 'O');
+            str = str.Replace('Ú', 'U');
+
+            str = str.Replace('À', 'A');
+            str = str.Replace('È', 'E');
+            str = str.Replace('Ì', 'I');
+            str = str.Replace('Ò', 'O');
+            str = str.Replace('Ù', 'U');
+
+            return str;
+        }
+
+        private List<Articulo> ObtenerArticulosAleatorios(int cantidad)
+        {
+            Random random = new Random();
+            List<Articulo> articulosSeleccionados = new List<Articulo>();
+
+            while (articulosSeleccionados.Count < cantidad && articulosSeleccionados.Count < _listaArticulos.Count)
+            {
+                int indiceAleatorio = random.Next(_listaArticulos.Count);
+
+                // Asegurarse de que no se selecciona el mismo artículo dos veces
+                if (!articulosSeleccionados.Contains(_listaArticulos[indiceAleatorio]))
+                {
+                    articulosSeleccionados.Add(_listaArticulos[indiceAleatorio]);
+                }
+            }
+
+            return articulosSeleccionados;
+        }
+
+        private Cliente ObtenerClienteAleatorio()
+        {
+            List<Cliente> clientes = new List<Cliente>();
+            clientes = ListarClientes();
+
+            if (clientes.Count == 0) return null;
+
+            Random random = new Random();
+            int indiceAleatorio = random.Next(clientes.Count);
+
+            return clientes[indiceAleatorio];
+        }
+
+        private List<Oferta> ObtenerOfertasAleatorias()
+        {
+            List<Oferta> ofertas = new List<Oferta>();
+            Random random = new Random();
+            double montoAleatorio = random.Next(300);
+
+            ofertas.Add(new Oferta(ObtenerClienteAleatorio(), montoAleatorio, DateTime.Today));
+
+            return ofertas;
+        }
+        #endregion
 
         #region PRECARGAS
         private void PrecargarUsuarios()
@@ -167,46 +238,27 @@ namespace Dominio
 
         private void PrecargarPublicaciones()
         {
-            AltaPublicacion(new Subasta("Subasta 1", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 15), SeleccionarArticulosAleatorios(2), null));
-            AltaPublicacion(new Subasta("Subasta 2", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 18), SeleccionarArticulosAleatorios(6), null));
-            AltaPublicacion(new Subasta("Subasta 3", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 20), SeleccionarArticulosAleatorios(4), null));
-            AltaPublicacion(new Subasta("Subasta 4", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 22), SeleccionarArticulosAleatorios(3), null));
-            AltaPublicacion(new Subasta("Subasta 5", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 25), SeleccionarArticulosAleatorios(4), null));
-            AltaPublicacion(new Subasta("Subasta 6", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 27), SeleccionarArticulosAleatorios(2), null));
-            AltaPublicacion(new Subasta("Subasta 7", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 01), SeleccionarArticulosAleatorios(1), null));
-            AltaPublicacion(new Subasta("Subasta 8", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 03), SeleccionarArticulosAleatorios(4), null));
-            AltaPublicacion(new Subasta("Subasta 9", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 05), SeleccionarArticulosAleatorios(4), null));
-            AltaPublicacion(new Subasta("Subasta 10", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 10), SeleccionarArticulosAleatorios(6), null));
+            AltaPublicacion(new Subasta("Subasta 1", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 15), ObtenerArticulosAleatorios(2), null));
+            AltaPublicacion(new Subasta("Subasta 2", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 18), ObtenerArticulosAleatorios(6), ObtenerOfertasAleatorias()));
+            AltaPublicacion(new Subasta("Subasta 3", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 20), ObtenerArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 4", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 22), ObtenerArticulosAleatorios(3), ObtenerOfertasAleatorias()));
+            AltaPublicacion(new Subasta("Subasta 5", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 25), ObtenerArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 6", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 27), ObtenerArticulosAleatorios(2), ObtenerOfertasAleatorias()));
+            AltaPublicacion(new Subasta("Subasta 7", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 01), ObtenerArticulosAleatorios(1), null));
+            AltaPublicacion(new Subasta("Subasta 8", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 03), ObtenerArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 9", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 05), ObtenerArticulosAleatorios(4), null));
+            AltaPublicacion(new Subasta("Subasta 10", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 06), ObtenerArticulosAleatorios(6), ObtenerOfertasAleatorias()));
 
-            AltaPublicacion(new Venta("Venta 1", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 01), SeleccionarArticulosAleatorios(3), true));
-            AltaPublicacion(new Venta("Venta 2", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 05), SeleccionarArticulosAleatorios(4), false));
-            AltaPublicacion(new Venta("Venta 3", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 08), SeleccionarArticulosAleatorios(1), false));
-            AltaPublicacion(new Venta("Venta 4", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 12), SeleccionarArticulosAleatorios(5), false));
-            AltaPublicacion(new Venta("Venta 5", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 15), SeleccionarArticulosAleatorios(7), true));
-            AltaPublicacion(new Venta("Venta 6", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 20), SeleccionarArticulosAleatorios(2), false));
-            AltaPublicacion(new Venta("Venta 7", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 25), SeleccionarArticulosAleatorios(7), true));
-            AltaPublicacion(new Venta("Venta 8", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 30), SeleccionarArticulosAleatorios(3), false));
-            AltaPublicacion(new Venta("Venta 9", EstadoPublicacion.ABIERTA, new DateTime(2024, 11, 02), SeleccionarArticulosAleatorios(7), false));
-            AltaPublicacion(new Venta("Venta 10", EstadoPublicacion.ABIERTA, new DateTime(2024, 11, 05), SeleccionarArticulosAleatorios(1), true));
-        }
-
-        private List<Articulo> SeleccionarArticulosAleatorios(int cantidad)
-        {
-            Random random = new Random();
-            List<Articulo> articulosSeleccionados = new List<Articulo>();
-
-            while (articulosSeleccionados.Count < cantidad && articulosSeleccionados.Count < _listaArticulos.Count)
-            {
-                int indiceAleatorio = random.Next(_listaArticulos.Count);
-
-                // Asegurarse de que no se selecciona el mismo artículo dos veces
-                if (!articulosSeleccionados.Contains(_listaArticulos[indiceAleatorio]))
-                {
-                    articulosSeleccionados.Add(_listaArticulos[indiceAleatorio]);
-                }
-            }
-
-            return articulosSeleccionados;
+            AltaPublicacion(new Venta("Venta 1", EstadoPublicacion.ABIERTA, new DateTime(2024, 10, 01), ObtenerArticulosAleatorios(3), true));
+            AltaPublicacion(new Venta("Venta 2", EstadoPublicacion.ABIERTA, new DateTime(2024, 02, 05), ObtenerArticulosAleatorios(4), false));
+            AltaPublicacion(new Venta("Venta 3", EstadoPublicacion.ABIERTA, new DateTime(2024, 02, 08), ObtenerArticulosAleatorios(1), false));
+            AltaPublicacion(new Venta("Venta 4", EstadoPublicacion.ABIERTA, new DateTime(2024, 05, 12), ObtenerArticulosAleatorios(5), false));
+            AltaPublicacion(new Venta("Venta 5", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 15), ObtenerArticulosAleatorios(7), true));
+            AltaPublicacion(new Venta("Venta 6", EstadoPublicacion.ABIERTA, new DateTime(2024, 08, 20), ObtenerArticulosAleatorios(2), false));
+            AltaPublicacion(new Venta("Venta 7", EstadoPublicacion.ABIERTA, new DateTime(2024, 07, 25), ObtenerArticulosAleatorios(7), true));
+            AltaPublicacion(new Venta("Venta 8", EstadoPublicacion.ABIERTA, new DateTime(2024, 04, 30), ObtenerArticulosAleatorios(3), false));
+            AltaPublicacion(new Venta("Venta 9", EstadoPublicacion.ABIERTA, new DateTime(2024, 03, 02), ObtenerArticulosAleatorios(7), false));
+            AltaPublicacion(new Venta("Venta 10", EstadoPublicacion.ABIERTA, new DateTime(2024, 04, 05), ObtenerArticulosAleatorios(1), true));
         }
 
         #endregion

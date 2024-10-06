@@ -188,6 +188,10 @@ namespace Consola
                 Articulo articulo = new Articulo(nombre, categoria, precio);
                 articulo.Validar();
                 sistema.AltaArticulo(articulo);
+
+                Console.Clear();
+                MostrarMensajeColor(ConsoleColor.Yellow, "ALTA DE ARTÍCULO");
+                Console.WriteLine();
                 MostrarExito("Artículo insertado satisfactoriamente.");
             }
             catch (Exception ex)
@@ -206,8 +210,6 @@ namespace Consola
             Console.Clear();
             MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE CLIENTES");
             Console.WriteLine();
-
-           
 
             try
             {
@@ -237,22 +239,27 @@ namespace Consola
             MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE ARTÍCULOS POR CATEGORÍA");
             Console.WriteLine();
             MostrarMensaje("Categorías disponibles:");
-            int contador = 1;
-
-            List<string> categorias = sistema.ListarCategorias();
-            
-            foreach (string c in categorias)
-            {
-                MostrarMensaje($"{contador}- {c}");
-                contador++;
-            }
-
-            int categoriaSeleccionada = PedirInt("\nIngrese el número de categoría a listar: ");
 
             try
             {
+                List<string> categorias = sistema.ListarCategorias();
+                int contador = 1;
+
+                foreach (string c in categorias)
+                {
+                    MostrarMensaje($"{contador}- {c}");
+                    contador++;
+                }
+
+                int categoriaSeleccionada = PedirInt("\nIngrese el número de categoría a listar: ");
+
                 List<Articulo> articulos = new List<Articulo>();
                 articulos = sistema.ListarArticulosPorCategoria(categorias[categoriaSeleccionada - 1]);
+
+                Console.Clear();
+                MostrarMensajeColor(ConsoleColor.Yellow, $"LISTADO DE ARTÍCULOS POR CATEGORÍA: {sistema.NormalizarString(categorias[categoriaSeleccionada - 1])}");
+                Console.WriteLine();
+
                 foreach (Articulo a in articulos)
                 {
                     MostrarMensaje(a.ToString());

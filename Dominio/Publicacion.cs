@@ -30,7 +30,7 @@ namespace Dominio
         {
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacío.");
             if (_articulos == null) throw new Exception("Los artículos no pueden ser nulos.");
-            if (_fechaPublicacion < new DateTime(1950, 1, 1) /*|| _fechaPublicacion > DateTime.Today*/) throw new Exception("La fecha de publicación es invalida.");
+            if (_fechaPublicacion < new DateTime(2024, 1, 1) || _fechaPublicacion > DateTime.Today) throw new Exception("La fecha de publicación es inválida.");
         }
 
         public override string ToString()
