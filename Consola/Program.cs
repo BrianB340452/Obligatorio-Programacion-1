@@ -187,7 +187,6 @@ namespace Consola
             {
                 Articulo articulo = new Articulo(nombre, categoria, precio);
                 articulo.Validar();
-
                 sistema.AltaArticulo(articulo);
                 MostrarExito("Artículo insertado satisfactoriamente.");
             }
@@ -208,11 +207,12 @@ namespace Consola
             MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE CLIENTES");
             Console.WriteLine();
 
-            List<Cliente> clientes = new List<Cliente>();
-            clientes = sistema.ListarClientes();
+           
 
             try
             {
+                List<Cliente> clientes = new List<Cliente>();
+                clientes = sistema.ListarClientes();
                 foreach (Cliente c in clientes)
                 {
                     MostrarMensaje(c.ToString());
@@ -240,7 +240,6 @@ namespace Consola
             int contador = 1;
 
             List<string> categorias = sistema.ListarCategorias();
-
             
             foreach (string c in categorias)
             {
@@ -250,11 +249,10 @@ namespace Consola
 
             int categoriaSeleccionada = PedirInt("\nIngrese el número de categoría a listar: ");
 
-            List<Articulo> articulos = new List<Articulo>();
-            articulos = sistema.ListarArticulosPorCategoria(categorias[categoriaSeleccionada-1]);
-
             try
             {
+                List<Articulo> articulos = new List<Articulo>();
+                articulos = sistema.ListarArticulosPorCategoria(categorias[categoriaSeleccionada - 1]);
                 foreach (Articulo a in articulos)
                 {
                     MostrarMensaje(a.ToString());
@@ -287,9 +285,8 @@ namespace Consola
                 MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE PUBLICACIONES POR FECHA\n");
 
                 List<Publicacion> publicaciones = new List<Publicacion>();
-                publicaciones = sistema.ListarPublicacionesEntreDosFechas(fechaInicio, fechaFinal);
 
-                if (publicaciones.Count == 0) throw new Exception("No se han encontrado publicaciones entre esas fechas.");
+                publicaciones = sistema.ListarPublicacionesEntreDosFechas(fechaInicio, fechaFinal);
 
                 foreach (Publicacion p in publicaciones)
                 {

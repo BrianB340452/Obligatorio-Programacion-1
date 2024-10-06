@@ -17,7 +17,11 @@ namespace Dominio
 
         public List<Cliente> ListarClientes()
         {
-            return _listaUsuarios.OfType<Cliente>().ToList();
+            List<Cliente> clientes = new List<Cliente>();
+            clientes = _listaUsuarios.OfType<Cliente>().ToList();
+
+            if (clientes.Count == 0) throw new Exception("No se han encontrado clientes");
+            return clientes;
         }
 
         public List<Articulo> ListarArticulosPorCategoria(string categoria)
@@ -74,7 +78,6 @@ namespace Dominio
         public List<Publicacion> ListarPublicacionesEntreDosFechas(DateTime fechaInicio, DateTime fechaFin)
         {
             if (fechaInicio > fechaFin) throw new Exception("La fecha de inicio no puede ser mayor a la fecha final.");
-
             List<Publicacion> publicaciones = new List<Publicacion>();
 
             foreach (Publicacion p in _listaPublicaciones)
@@ -84,6 +87,7 @@ namespace Dominio
                     publicaciones.Add(p);
                 }
             }
+            if (publicaciones.Count == 0) throw new Exception("No se han encontrado publicaciones entre esas fechas.");
 
             return publicaciones;
         }

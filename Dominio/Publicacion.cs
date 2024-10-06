@@ -12,7 +12,7 @@ namespace Dominio
         protected DateTime _fechaPublicacion;
         protected List<Articulo> _articulos = new List<Articulo>();
         protected Cliente _clienteComprador;
-        protected Administrador _usuarioFinalizador;
+        protected Usuario _usuarioFinalizador;
         protected DateTime _fechaFinalizada;
 
         protected Publicacion(string nombre, EstadoPublicacion estado, DateTime fechaPublicacion, List<Articulo> articulos)
