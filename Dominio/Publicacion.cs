@@ -35,7 +35,7 @@ namespace Dominio
 
         public override string ToString()
         {
-            return $"Nº{_id}: {_nombre} | Estado: {_estado} | Fecha publicación: {_fechaPublicacion.ToString("dd/MM/yyyy")}";
+            return $"Nº{_id}: {_nombre} | Estado: {_estado} | Fecha publicación: {_fechaPublicacion.ToShortDateString()}";
         }
     }
 }

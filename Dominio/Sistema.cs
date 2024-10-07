@@ -49,7 +49,7 @@ namespace Dominio
             return clientes;
         }
 
-        public List<string> ListarCategorias()
+        public List<string> ListarCategorias() //1)categoria- Ya que el usuario no conoce los nombres de las categorias, las listamos para que pueda seleccionarlas y mejorar la experiencia del usuario
         {
             List<string> categorias = new List<string>();
 
@@ -66,7 +66,7 @@ namespace Dominio
             return categorias;
         }
 
-        public List<Articulo> ListarArticulosPorCategoria(string categoria)
+        public List<Articulo> ListarArticulosPorCategoria(string categoria) //2)categoria- luego de listadas puede seleccionar una y recorrerla
         {
             List<Articulo> articulos = new List<Articulo>();
 
@@ -119,7 +119,7 @@ namespace Dominio
             return str;
         }
 
-        private List<Articulo> ObtenerArticulosAleatorios(int cantidad)
+        private List<Articulo> ObtenerArticulosAleatorios(int cantidad) // necesario para la precarga de punlicaciones
         {
             Random random = new Random();
             List<Articulo> articulosSeleccionados = new List<Articulo>();
@@ -138,7 +138,7 @@ namespace Dominio
             return articulosSeleccionados;
         }
 
-        private Cliente ObtenerClienteAleatorio()
+        private Cliente ObtenerClienteAleatorio() // necesario para precargar una oferta
         {
             List<Cliente> clientes = new List<Cliente>();
             clientes = ListarClientes();
@@ -151,7 +151,7 @@ namespace Dominio
             return clientes[indiceAleatorio];
         }
 
-        private List<Oferta> ObtenerOfertasAleatorias()
+        private List<Oferta> ObtenerOfertasAleatorias() // Por ahora se solicita tener 1 oferta precargada en publicacion
         {
             List<Oferta> ofertas = new List<Oferta>();
             Random random = new Random();
