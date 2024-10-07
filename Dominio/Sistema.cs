@@ -41,6 +41,7 @@ namespace Dominio
         #endregion
 
         #region LISTADOS
+        //Listado de clientes filtrando la lista usuarios.
         public List<Cliente> ListarClientes()
         {
             List<Cliente> clientes = new List<Cliente>();
@@ -49,7 +50,8 @@ namespace Dominio
             return clientes;
         }
 
-        public List<string> ListarCategorias() //1)categoria- Ya que el usuario no conoce los nombres de las categorias, las listamos para que pueda seleccionarlas y mejorar la experiencia del usuario
+        //Listado de las categorías disponibles recorriendo todos los artículos.
+        public List<string> ListarCategorias()
         {
             List<string> categorias = new List<string>();
 
@@ -66,7 +68,8 @@ namespace Dominio
             return categorias;
         }
 
-        public List<Articulo> ListarArticulosPorCategoria(string categoria) //2)categoria- luego de listadas puede seleccionar una y recorrerla
+        //Listado de artículos dada una categoría específica.
+        public List<Articulo> ListarArticulosPorCategoria(string categoria)
         {
             List<Articulo> articulos = new List<Articulo>();
 
@@ -80,6 +83,7 @@ namespace Dominio
             return articulos;
         }
 
+        //Listado de publicaciones que se encuentren entre dos fechas específicas.
         public List<Publicacion> ListarPublicacionesEntreDosFechas(DateTime fechaInicio, DateTime fechaFin)
         {
             if (fechaInicio > fechaFin) throw new Exception("La fecha de inicio no puede ser mayor a la fecha final.");
@@ -101,7 +105,7 @@ namespace Dominio
         #region MÉTODOS AUXILIARES
         public string NormalizarString(string str)
         {
-            // Pasa el string a mayúsculas y quita todos los tildes
+            // Pasa el string a mayúsculas y quita todas las tildes.
             str = str.ToUpper();
 
             str = str.Replace('Á', 'A');
@@ -119,7 +123,8 @@ namespace Dominio
             return str;
         }
 
-        private List<Articulo> ObtenerArticulosAleatorios(int cantidad) // necesario para la precarga de punlicaciones
+        //Devuelve una lista de articulos aleatorios (usado para precarga).
+        private List<Articulo> ObtenerArticulosAleatorios(int cantidad)
         {
             Random random = new Random();
             List<Articulo> articulosSeleccionados = new List<Articulo>();
@@ -138,7 +143,8 @@ namespace Dominio
             return articulosSeleccionados;
         }
 
-        private Cliente ObtenerClienteAleatorio() // necesario para precargar una oferta
+        //Devuelve un cliente aleatorio (usado para precarga).
+        private Cliente ObtenerClienteAleatorio()
         {
             List<Cliente> clientes = new List<Cliente>();
             clientes = ListarClientes();
@@ -151,7 +157,8 @@ namespace Dominio
             return clientes[indiceAleatorio];
         }
 
-        private List<Oferta> ObtenerOfertasAleatorias() // Por ahora se solicita tener 1 oferta precargada en publicacion
+        //Devuelve una lista de ofertas aleatoria (usado para precarga).
+        private List<Oferta> ObtenerOfertasAleatorias()
         {
             List<Oferta> ofertas = new List<Oferta>();
             Random random = new Random();
