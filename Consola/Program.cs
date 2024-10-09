@@ -146,11 +146,6 @@ namespace Consola
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        static void MostrarMensaje(string mensaje)
-        {
-            Console.WriteLine(mensaje);
-        }
-
         static void MostrarError(string mensaje)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -216,7 +211,7 @@ namespace Consola
                 clientes = sistema.ListarClientes();
                 foreach (Cliente c in clientes)
                 {
-                    MostrarMensaje(c.ToString());
+                    Console.WriteLine(c);
                 }
 
                 Console.WriteLine();
@@ -236,8 +231,7 @@ namespace Consola
         {
             Console.Clear();
             MostrarMensajeColor(ConsoleColor.Yellow, "LISTADO DE ARTÍCULOS POR CATEGORÍA");
-            Console.WriteLine();
-            MostrarMensaje("Categorías disponibles:");
+            Console.WriteLine("\nCategorías disponibles:");
 
             try
             {
@@ -246,7 +240,7 @@ namespace Consola
 
                 foreach (string c in categorias)
                 {
-                    MostrarMensaje($"{contador}- {c}");
+                    Console.WriteLine($"{contador}- {c}");
                     contador++;
                 }
 
@@ -261,7 +255,7 @@ namespace Consola
 
                 foreach (Articulo a in articulos)
                 {
-                    MostrarMensaje(a.ToString());
+                    Console.WriteLine(a);
                 }
 
                 Console.WriteLine();
@@ -296,7 +290,7 @@ namespace Consola
 
                 foreach (Publicacion p in publicaciones)
                 {
-                    MostrarMensaje(p.ToString());
+                    Console.WriteLine(p);
                 }
 
                 Console.WriteLine();
