@@ -39,6 +39,7 @@ namespace Dominio
         {
             if (articulo == null) throw new Exception("El artículo no puede ser nulo.");
             articulo.Validar();
+            if (_articulos.Contains(articulo)) throw new Exception("El artículo ingresado ya se encuentra ingresado.");
             _articulos.Add(articulo);
         }
 
