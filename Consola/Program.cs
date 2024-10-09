@@ -186,7 +186,6 @@ namespace Consola
             try
             {
                 Articulo articulo = new Articulo(nombre, categoria, precio);
-                articulo.Validar();
                 sistema.AltaArticulo(articulo);
 
                 Console.Clear();

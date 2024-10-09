@@ -45,7 +45,15 @@ namespace Dominio
         public List<Cliente> ListarClientes()
         {
             List<Cliente> clientes = new List<Cliente>();
-            clientes = _listaUsuarios.OfType<Cliente>().ToList();
+
+            foreach(Usuario u in _listaUsuarios)
+            {
+                if (u is Cliente)
+                {
+                    clientes.Add((Cliente) u);
+                }
+            }
+
             if (clientes.Count == 0) throw new Exception("No se ha encontrado ningún cliente.");
             return clientes;
         }
@@ -245,6 +253,7 @@ namespace Dominio
 
         private void PrecargarPublicaciones()
         {
+            // PROFE YA LO HABLAMOS: Constructor solo para precargas (hay otro para las altas que no incluye las listas)
             AltaPublicacion(new Subasta("Subasta 1", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 15), ObtenerArticulosAleatorios(2), null));
             AltaPublicacion(new Subasta("Subasta 2", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 18), ObtenerArticulosAleatorios(6), ObtenerOfertasAleatorias()));
             AltaPublicacion(new Subasta("Subasta 3", EstadoPublicacion.ABIERTA, new DateTime(2024, 09, 20), ObtenerArticulosAleatorios(4), null));

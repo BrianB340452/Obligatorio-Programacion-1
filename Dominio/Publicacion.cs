@@ -15,6 +15,15 @@ namespace Dominio
         protected Usuario _usuarioFinalizador;
         protected DateTime _fechaFinalizada;
 
+        protected Publicacion(string nombre, EstadoPublicacion estado, DateTime fechaPublicacion)
+        {
+            _id = s_ultId++;
+            _nombre = nombre;
+            _estado = estado;
+            _fechaPublicacion = fechaPublicacion;
+        }
+
+        // Constructor sólo para precargas
         protected Publicacion(string nombre, EstadoPublicacion estado, DateTime fechaPublicacion, List<Articulo> articulos)
         {
             _id = s_ultId++;
@@ -25,6 +34,13 @@ namespace Dominio
         }
 
         public DateTime FechaPublicacion { get { return _fechaPublicacion; } }
+
+        public virtual void AgregarArticulo(Articulo articulo)
+        {
+            if (articulo == null) throw new Exception("El artículo no puede ser nulo.");
+            articulo.Validar();
+            _articulos.Add(articulo);
+        }
 
         public virtual void Validar()
         {

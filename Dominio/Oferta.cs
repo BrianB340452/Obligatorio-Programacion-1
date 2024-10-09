@@ -18,6 +18,8 @@ namespace Dominio
             _fechaRealizada = fechaRealizada;
         }
 
+        public double Monto { get { return _monto; } }
+
         public void Validar()
         {
             _cliente.Validar();
