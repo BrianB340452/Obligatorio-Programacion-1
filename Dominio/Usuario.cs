@@ -28,6 +28,8 @@ namespace Dominio
             if (_clave.Length < 4) throw new Exception("La contraseña debe contener un mínimo de 4 caracteres.");
         }
 
+        public int Id { get { return _id; } }
+
         private bool EmailValido(string email)
         {
             if (string.IsNullOrEmpty(email)) return false;

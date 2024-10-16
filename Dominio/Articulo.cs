@@ -18,6 +18,8 @@ namespace Dominio
             _precio = precio;
         }
 
+        public int Id { get { return _id; } }
+
         public string Categoria { get { return _categoria; } }
 
         public void Validar()

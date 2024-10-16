@@ -209,6 +209,9 @@ namespace Consola
             {
                 List<Cliente> clientes = new List<Cliente>();
                 clientes = sistema.ListarClientes();
+
+                if (clientes.Count == 0) throw new Exception("No se encontró ningún cliente.");
+
                 foreach (Cliente c in clientes)
                 {
                     Console.WriteLine(c);
@@ -237,6 +240,8 @@ namespace Consola
             {
                 List<string> categorias = sistema.ListarCategorias();
                 int contador = 1;
+
+                if (categorias.Count == 0) throw new Exception("No se encontró ninguna categoría.");
 
                 foreach (string c in categorias)
                 {
@@ -287,6 +292,8 @@ namespace Consola
                 List<Publicacion> publicaciones = new List<Publicacion>();
 
                 publicaciones = sistema.ListarPublicacionesEntreDosFechas(fechaInicio, fechaFinal);
+
+                if (publicaciones.Count == 0) throw new Exception("No se encontró ninguna publicación entre las dos fechas seleccionadas.");
 
                 foreach (Publicacion p in publicaciones)
                 {

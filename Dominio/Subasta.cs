@@ -19,6 +19,10 @@ namespace Dominio
         public void AgregarOferta(Oferta oferta)
         {
             if (oferta == null) throw new Exception("La oferta no puede ser nula.");
+
+            Cliente ultimoClienteEnOfertar = UltimoClienteEnOfertar();
+            if (ultimoClienteEnOfertar != null && ultimoClienteEnOfertar.Id == oferta.Cliente.Id) throw new Exception("Ya tiene la oferta más alta.");
+
             oferta.Validar();
 
             foreach (Oferta o in _ofertas)
@@ -27,6 +31,11 @@ namespace Dominio
             }
             
             _ofertas.Add(oferta);
+        }
+
+        private Cliente UltimoClienteEnOfertar()
+        {
+            return _ofertas.Last().Cliente;
         }
     }
 }

@@ -40,6 +40,79 @@ namespace Dominio
         }
         #endregion
 
+        #region AGREGACIONES
+        public void AgregarArticuloAPublicacion(int idArticulo, int idPublicacion)
+        {
+            Publicacion publicacion = BuscarPublicacionPorId(idPublicacion);
+            if (publicacion == null) throw new Exception("La publicación ingresada no existe.");
+
+            Articulo articulo = BuscarArticuloPorId(idArticulo);
+            publicacion.AgregarArticulo(articulo);
+        }
+
+        public void AgregarOfertaASubasta(int idCliente, int idSubasta, double monto, DateTime fecha)
+        {
+            Subasta subasta = BuscarSubastaPorId(idSubasta);
+            if (subasta == null) throw new Exception("La subasta ingresada no existe.");
+
+            Cliente cliente = BuscarClientePorId(idCliente);
+
+            Oferta oferta = new Oferta(cliente, monto, fecha);
+            subasta.AgregarOferta(oferta);
+        }
+
+        #endregion
+
+        #region BUSQUEDAS
+        public Articulo BuscarArticuloPorId(int id)
+        {
+            foreach (Articulo a in _listaArticulos)
+            {
+                if (a.Id == id) return a;
+            }
+
+            return null;
+        }
+
+        public Publicacion BuscarPublicacionPorId(int id)
+        {
+            foreach (Publicacion p in _listaPublicaciones)
+            {
+                if (p.Id == id) return p;
+            }
+
+            return null;
+        }
+
+        public Subasta BuscarSubastaPorId(int id)
+        {
+            foreach (Publicacion p in _listaPublicaciones)
+            {
+                if (p.Id == id)
+                {
+                    if (p is Subasta) return (Subasta) p;
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        public Cliente BuscarClientePorId(int id)
+        {
+            foreach (Usuario u in _listaUsuarios)
+            {
+                if (u.Id == id)
+                {
+                    if (u is Cliente) return (Cliente) u;
+                    return null;
+                }
+            }
+
+            return null;
+        }
+        #endregion
+
         #region LISTADOS
         //Listado de clientes filtrando la lista usuarios.
         public List<Cliente> ListarClientes()
@@ -54,7 +127,6 @@ namespace Dominio
                 }
             }
 
-            if (clientes.Count == 0) throw new Exception("No se ha encontrado ningún cliente.");
             return clientes;
         }
 
@@ -71,8 +143,6 @@ namespace Dominio
                 }
             }
 
-            if (categorias.Count == 0) throw new Exception("No se ha encontrado ningúna categoría.");
-
             return categorias;
         }
 
@@ -85,8 +155,6 @@ namespace Dominio
             {
                 if (a.Categoria == categoria) articulos.Add(a);
             }
-
-            if (articulos.Count == 0) throw new Exception("No se ha encontrado ningún artículo");
 
             return articulos;
         }
@@ -104,7 +172,6 @@ namespace Dominio
                     publicaciones.Add(p);
                 }
             }
-            if (publicaciones.Count == 0) throw new Exception("No se han encontrado publicaciones entre las fechas seleccionadas.");
 
             return publicaciones;
         }

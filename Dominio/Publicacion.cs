@@ -33,20 +33,23 @@ namespace Dominio
             _articulos = articulos;
         }
 
+        public int Id { get { return _id; } }
+
+        public List<Articulo> Articulos {  get { return _articulos; } }
+
         public DateTime FechaPublicacion { get { return _fechaPublicacion; } }
 
         public virtual void AgregarArticulo(Articulo articulo)
         {
             if (articulo == null) throw new Exception("El artículo no puede ser nulo.");
             articulo.Validar();
-            if (_articulos.Contains(articulo)) throw new Exception("El artículo ingresado ya se encuentra ingresado.");
+            if (_articulos.Contains(articulo)) throw new Exception("El artículo ingresado ya se encuentra en la publicación.");
             _articulos.Add(articulo);
         }
 
         public virtual void Validar()
         {
             if (string.IsNullOrEmpty(_nombre)) throw new Exception("El nombre no puede estar vacío.");
-            if (_articulos == null) throw new Exception("Los artículos no pueden ser nulos.");
             if (_fechaPublicacion < new DateTime(2024, 1, 1) || _fechaPublicacion > DateTime.Today) throw new Exception("La fecha de publicación es inválida.");
         }
 
